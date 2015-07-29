@@ -30,6 +30,11 @@ Using Vagrant for fast local provisioning:
     * vagrant ssh
     * cd stacktach-sandbox
     * ./build.sh
+    
+After first provisioning:
+
+    * . .venv/bin/activate
+    * screen -c screenrc.winchester
 
 Tweaks:
 

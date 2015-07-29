@@ -9,7 +9,7 @@ __pycache__/
 .Python
 env/
 bin/
-build/
+/build
 develop-eggs/
 dist/
 eggs/
@@ -50,5 +50,8 @@ coverage.xml
 *.pot
 
 # Sphinx documentation
-docs/_build/
-
+/docs/_build/
+/data
+/git
+/.venv
+/yagi.conf

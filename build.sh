@@ -37,7 +37,7 @@ PIPELINE_ENGINE=winchester
 
 if [[ "$CLEAN" = true ]]
 then
-    rm -rf data git stacktach-* .venv
+    rm -rf data git stacktach-* .venv build dist
 fi
 
 if [[ "$PACKAGE" = true ]]
@@ -73,7 +73,7 @@ do
         cd $pname && git pull && cd ..
     else
 	set +e
-        git clone --quiet http://git.openstack.org/stackforge/$pname
+        git clone http://git.openstack.org/stackforge/$pname
 	set -e
     fi
 done
@@ -81,7 +81,7 @@ done
 if [ -d notabene ]; then 
     cd notabene && git pull && cd ..
 else
-    git clone --quiet https://github.com/StackTach/notabene
+    git clone https://github.com/StackTach/notabene
 fi 
 
 if [ -d yagi ]; then 
