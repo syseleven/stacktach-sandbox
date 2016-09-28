@@ -1,0 +1,29 @@
+## TODO convert to tmux
+#hardstatus alwayslastline '%{= .} %-Lw%{= .}%> %n%f %t*%{= .}%+Lw%< %-=%{g}(%{d}%H/%l%{g})'
+# Enable this if you're replaying old events ...
+#screen -t time_sync bash
+#stuff "cd git/stacktach-notigen/bin; gunicorn -b 127.0.0.1:8001 --log-file=- 'time_sync:get_api()'\r"
+##
+
+new-session -s tach -n quincy bash
+send-keys "cd git/stacktach-quincy/quincy && gunicorn --log-file=- 'quincy.api:get_api(config_location=\"../../../quincy.conf\")' ; cd -\r"
+
+new-window -n bash bash
+send-keys "klugman http://127.0.0.1:8000 streams\r"
+
+new-window -n yagi1 bash
+#stuff "yagi-event --config yagi.conf\r"
+
+new-window -n yagi2 bash
+send-keys "yagi-event --config yagi.conf\r"
+
+new-window -n pipeline1 bash
+send-keys "pipeline_worker -c winchester.yaml\r"
+
+new-window -n pipeline2 bash
+send-keys "pipeline_worker -c winchester.yaml\r"
+
+new-window -n gen bash
+send-keys "cd git/stacktach-notigen/bin && python event_pump.py ../templates 2 0 ; cd -\r"
+
+attach-session
