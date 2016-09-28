@@ -41,7 +41,7 @@ PIPELINE_ENGINE=winchester
 
 if [[ "$CLEAN" = true ]]
 then
-    rm -rf data git stacktach-* .venv build dist
+    rm -rf data "$DEV_DIR" stacktach-* "$VENV_DIR" build "$PKG_DIR"
 fi
 
 if [[ "$PACKAGE" = true ]]
@@ -113,10 +113,10 @@ cd ..
 source ./$VENV_DIR/bin/activate
 
 # Some extra required libs ...
-pip install mysql-connector-python --allow-external mysql-connector-python
+pip install https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.0.4.tar.gz
 pip install gunicorn
 pip install httpie
-pip install librabbitmq
+pip install librabbitmq   # requires "make" -- or it will fail silently!
 
 # Needed by pyrax:
 pip install pbr
