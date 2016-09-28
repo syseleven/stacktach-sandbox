@@ -6,8 +6,9 @@ PACKAGE=false
 TOX=false
 DEPLOY=false
 QUICK=false
+TMUX=false
 
-while getopts qpdt opt; do
+while getopts qpdtm opt; do
   case $opt in
   q)
       QUICK=true
@@ -20,6 +21,9 @@ while getopts qpdt opt; do
       ;;
   d)
       DEPLOY=true
+      ;;
+  m)
+      TMUX=true
       ;;
   esac
 done
@@ -150,5 +154,11 @@ then
         echo ansible-playbook api.yaml --extra-vars \"tarball_absolute_path=../stacktachv3_$SHA.tar.gz\" -vvv
     fi
 else
-    screen -c screenrc.$PIPELINE_ENGINE
+    if [[ "$TMUX" = false ]]
+    then
+        screen -c screenrc.$PIPELINE_ENGINE
+    else
+        deactivate
+        tmux start-server \; source-file tmuxrc.$PIPELINE_ENGINE
+    fi
 fi
