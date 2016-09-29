@@ -116,6 +116,7 @@ source ./$VENV_DIR/bin/activate
 pip install https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.0.4.tar.gz
 pip install gunicorn
 pip install httpie
+pip install pika
 pip install librabbitmq   # requires "make" -- or it will fail silently!
 
 # Needed by pyrax:
