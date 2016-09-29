@@ -3,5 +3,5 @@ apps = winchester.yagi_handler.WinchesterHandler, yagi.handler.shoebox_handler.S
 exchange = monitor
 exchange_type = topic
 routing_key = monitor.info
-durable = True
+durable = False
 max_messages = 100
