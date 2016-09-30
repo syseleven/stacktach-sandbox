@@ -5,3 +5,6 @@ exchange_type = topic
 routing_key = monitor.info
 durable = False
 max_messages = 100
+auto_delete = False
+exchange_durable = True
+exchange_auto_delete = False
