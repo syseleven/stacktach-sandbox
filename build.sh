@@ -8,8 +8,11 @@ DEPLOY=false
 QUICK=false
 TMUX=false
 
-while getopts qpdtm opt; do
+while getopts cqpdtm opt; do
   case $opt in
+  c)
+      CLEAN=true
+      ;;
   q)
       QUICK=true
       ;;
@@ -36,6 +39,11 @@ SOURCE_DIR=$DEV_DIR
 VENV_DIR=.venv
 PIPELINE_ENGINE=winchester
 
+if [[ "$CLEAN" = true ]]
+then
+    rm -rf data git stacktach-* .venv build dist
+fi
+
 if [[ "$PACKAGE" = true ]]
 then
     # Ensure libmysqlclient-dev is installed on build machine.
@@ -60,17 +68,31 @@ if [[ ! -d "$VENV_DIR" ]]; then
 fi
 
 cd $SOURCE_DIR
-for file in shoebox simport notigen notification-utils \
+for project in shoebox simport notigen notification-utils \
             stackdistiller quincy quince timex \
             klugman winchester
 do
-    git clone http://git.openstack.org/openstack/stacktach-$file
+    pname=stacktach-$project
+    if [ -d $pname ]; then 
+        cd $pname && git pull && cd ..
+    else
+	set +e
+        git clone http://git.openstack.org/openstack/$pname
+	set -e
+    fi
 done
 # We still have some stragglers ...
-for file in StackTach/notabene rackerlabs/yagi
-do
-    git clone https://github.com/$file
-done
+if [ -d notabene ]; then 
+    cd notabene && git pull && cd ..
+else
+    git clone https://github.com/StackTach/notabene
+fi 
+
+if [ -d yagi ]; then 
+    cd yagi && git pull && cd ..
+else
+    git clone --quiet https://github.com/rackerlabs/yagi
+fi 
 
 if [[ "$TOX" = true ]]
 then
@@ -120,7 +142,7 @@ then
 fi
 
 # Hack(sandy): remove msgpack that conflicts with carrot
-pip uninstall -y msgpack-python
+#pip uninstall -y msgpack-python
 
 pip freeze > pip_freeze_versions.txt
 
