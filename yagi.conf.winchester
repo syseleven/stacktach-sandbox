@@ -1,8 +1,19 @@
-[consumer:monitor.info]
-apps = winchester.yagi_handler.WinchesterHandler, yagi.handler.shoebox_handler.ShoeboxHandler
-exchange = monitor
+[consumer:olaf_shoeboxtest.info]
+apps = yagi.handler.NullHandler, yagi.handler.shoebox_handler.ShoeboxHandler
+exchange = olaf_shoeboxtest
 exchange_type = topic
-routing_key = monitor.info
+routing_key = olaf_shoeboxtest.info
+durable = False
+max_messages = 100
+auto_delete = False
+exchange_durable = True
+exchange_auto_delete = False
+
+[consumer:olaf_shoeboxtest2.info]
+apps = yagi.handler.NullHandler, yagi.handler.shoebox_handler.ShoeboxHandler
+exchange = olaf_shoeboxtest
+exchange_type = topic
+routing_key = olaf_shoeboxtest2.info
 durable = False
 max_messages = 100
 auto_delete = False

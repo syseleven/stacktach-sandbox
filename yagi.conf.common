@@ -22,7 +22,7 @@ poll_delay = 0.5
 config_file = logging.conf
 
 [consumers]
-queues = monitor.info
+queues = olaf_shoeboxtest.info, olaf_shoeboxtest2.info
 
 # ------ NOTE ------
 # Yagi is launched from the sandbox/ dir, so files are
@@ -36,8 +36,19 @@ config_class = .|oahu_config:Config
 config_file = winchester.yaml
 
 [shoebox]
-working_directory=data/events
-destination_folder=data/output
+working_directory=olaf_shoeboxtest/events
+destination_folder=olaf_shoeboxtest/output
 filename_template=%Y%m%d-[[TIMESTAMP]]-stv3-[[CRC]].json
+live_filename_template=live.log
 roll_manager=shoebox.roll_manager:WritingJSONRollManager
 roll_size_mb=20
+roll_minutes=1440
+
+[shoebox:olaf_shoeboxtest2.info]
+working_directory=olaf_shoeboxtest2/events
+destination_folder=olaf_shoeboxtest2/output
+filename_template=%Y%m%d-[[TIMESTAMP]]-stv3-[[CRC]].json
+#live_filename_template=live2.log
+roll_manager=shoebox.roll_manager:WritingJSONRollManager
+roll_size_mb=20
+roll_minutes=1440
