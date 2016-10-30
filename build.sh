@@ -7,8 +7,9 @@ TOX=false
 DEPLOY=false
 QUICK=false
 TMUX=false
+DETACH=false
 
-while getopts cqpdtm opt; do
+while getopts cqpdtmD opt; do
   case $opt in
   c)
       CLEAN=true
@@ -27,6 +28,9 @@ while getopts cqpdtm opt; do
       ;;
   m)
       TMUX=true
+      ;;
+  D)
+      DETACH=true
       ;;
   esac
 done
@@ -179,9 +183,14 @@ then
 else
     if [[ "$TMUX" = false ]]
     then
+        # TODO $DETACH
         screen -c screenrc.$PIPELINE_ENGINE
     else
         deactivate
-        tmux start-server \; source-file tmuxrc.$PIPELINE_ENGINE
+        if [[ "$DETACH" = false ]]; then
+            tmux start-server \; new-session -s tach -n shell bash \; source-file tmuxrc.$PIPELINE_ENGINE \; attach-session
+        else
+            tmux start-server \; new-session -d -s tach -n shell bash \; source-file tmuxrc.$PIPELINE_ENGINE
+        fi
     fi
 fi

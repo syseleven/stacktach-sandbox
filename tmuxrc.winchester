@@ -9,7 +9,7 @@
 #   if there is another tmux session (and thus a singleton tmux server) already running. That's why we activate the
 #   virtualenv in each tmux shell separately
 
-new-session -s tach -n quincy bash
+new-window -n quincy bash
 send-keys ". .venv/bin/activate && cd git/stacktach-quincy/quincy && gunicorn --log-file=- 'quincy.api:get_api(config_location=\"../../../quincy.conf\")' ; cd -\r"
 
 new-window -n bash bash
@@ -30,4 +30,3 @@ send-keys ". .venv/bin/activate && pipeline_worker -c winchester.yaml\r"
 new-window -n gen bash
 send-keys "#. .venv/bin/activate && cd git/stacktach-notigen/bin && python event_pump.py ../templates 2 0 ; cd -\r"
 
-attach-session
